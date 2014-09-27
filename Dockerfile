@@ -25,9 +25,6 @@ RUN apt-get update && apt-get install -y nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 
-# Install unicorn
-RUN gem install unicorn
-
 # Publish port 80
 EXPOSE 80
 
