@@ -5,7 +5,7 @@ FROM  ubuntu:14.04
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y software-properties-common
-RUN apt-get install -y make gcc wget openjdk-6-jre
+RUN apt-get install -y make curl gcc wget openjdk-6-jre
 RUN apt-get install -y git
 RUN apt-get clean
 
