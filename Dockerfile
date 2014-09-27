@@ -5,7 +5,7 @@ FROM  ubuntu:14.04
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y software-properties-common
-RUN apt-get install -y make curl gcc wget openjdk-6-jre
+RUN apt-get install -y make curl gcc wget
 RUN apt-get install -y git
 RUN apt-get clean
 
@@ -18,6 +18,7 @@ RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 # Install nginx
 RUN apt-get install -y nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 
 # Publish port 80
 EXPOSE 80
@@ -26,7 +27,10 @@ EXPOSE 80
 ENTRYPOINT /usr/sbin/nginx
 
 # Add rails project to project directory
-ADD ./ /rails
+ADD ./ /home/app
+ONBUILD ADD Gemfile /home/app/Gemfile
+ONBUILD ADD Gemfile.lock /home/app/Gemfile.lock
+ONBUILD RUN bundle install --without development test
 
 # set WORKDIR
-WORKDIR /rails
+WORKDIR /home/app
