@@ -25,11 +25,14 @@ RUN apt-get update && apt-get install -y nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 
+# Install unicorn
+RUN gem install unicorn
+
 # Publish port 80
 EXPOSE 80
 
 # Start nginx when container starts
-ENTRYPOINT /usr/sbin/nginx
+ENTRYPOINT ["/usr/bin/supervisord"]
 
 # Add rails project to project directory
 ADD ./ /home/app
@@ -39,3 +42,8 @@ ONBUILD RUN bundle install --without development test
 
 # set WORKDIR
 WORKDIR /home/app
+
+ENV RAILS_ENV production
+
+# Compile assets and start unicorn
+CMD bundle exec rake assets:precompile && unicorn -p 4000 -c ./config/unicorn.rb
