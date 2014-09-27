@@ -43,4 +43,4 @@ WORKDIR /home/app
 ENV RAILS_ENV production
 
 # Compile assets and start unicorn
-CMD bundle exec rake assets:precompile && unicorn -p 4000 -c ./config/unicorn.rb
+CMD bundle exec unicorn -p 4000 -c ./config/unicorn.rb
