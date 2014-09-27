@@ -21,7 +21,8 @@ RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/run/sshd /var/log/superviso
 COPY ./config/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Install nginx
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update
+RUN apt-get install -y nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 
