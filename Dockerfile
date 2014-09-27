@@ -34,10 +34,11 @@ EXPOSE 80
 ENTRYPOINT /usr/sbin/nginx
 
 # Add rails project to project directory
-ADD ./ /home/app
 ONBUILD ADD Gemfile /home/app/Gemfile
 ONBUILD ADD Gemfile.lock /home/app/Gemfile.lock
 ONBUILD RUN bundle install --without development test
+
+ADD ./ /home/app
 
 # set WORKDIR
 WORKDIR /home/app
