@@ -29,8 +29,8 @@ ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 # Publish port 80
 EXPOSE 80
 
-# Start nginx when container starts
-ENTRYPOINT ["/usr/bin/supervisord"]
+# Start supervisord when container starts
+ENTRYPOINT /usr/bin/supervisord
 
 # Add rails project to project directory
 ADD ./ /home/app
