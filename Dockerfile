@@ -15,5 +15,18 @@ RUN /bin/bash -l -c "rvm requirements"
 RUN /bin/bash -l -c "rvm install 2.1.0"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 
+# Install nginx
+RUN apt-get install -y nginx
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
 # Publish port 80
 EXPOSE 80
+
+# Start nginx when container starts
+ENTRYPOINT /usr/sbin/nginx
+
+# Add rails project to project directory
+ADD ./ /rails
+
+# set WORKDIR
+WORKDIR /rails
