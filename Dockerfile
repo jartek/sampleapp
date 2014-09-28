@@ -42,6 +42,7 @@ EXPOSE 80
 ONBUILD ADD Gemfile /home/app/Gemfile
 ONBUILD ADD Gemfile.lock /home/app/Gemfile.lock
 ONBUILD RUN bundle install --without development test
+ONBUILD RUN bundle install --binstubs --path --without development test
 
 ADD ./ /home/app
 
