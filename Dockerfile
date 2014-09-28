@@ -26,6 +26,7 @@ RUN /bin/bash -l -c "rvm requirements"
 RUN /bin/bash -l -c "rvm install 2.1.0"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 RUN /bin/bash -l -c "rvm info"
+RUN /bin/bash -l -c "bundle -v"
 
 # Install supervisord
 COPY ./config/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
