@@ -42,3 +42,4 @@ ADD ./ /home/app
 WORKDIR /home/app
 
 ENV RAILS_ENV production
+ENV PATH /usr/local/rvm:/usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
