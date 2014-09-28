@@ -45,6 +45,8 @@ ONBUILD RUN bundle install --without development test
 ONBUILD RUN bundle install --binstubs --path --without development test
 
 ADD ./ /home/app
+RUN mkdir -p /home/app/log
+RUN touch /home/app/log/unicorn.stdout.log /home/app/log/unicorn.stderr.log
 
 # set WORKDIR
 WORKDIR /home/app
