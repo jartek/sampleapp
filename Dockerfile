@@ -29,8 +29,7 @@ ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 EXPOSE 80
 
 # Start supervisord when container starts
-# ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-ENTRYPOINT /usr/sbin/nginx
+ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 # Add rails project to project directory
 ONBUILD ADD Gemfile /home/app/Gemfile
@@ -43,6 +42,3 @@ ADD ./ /home/app
 WORKDIR /home/app
 
 ENV RAILS_ENV production
-
-# Compile assets and start unicorn
-CMD bundle exec unicorn -p 4000 -c ./config/unicorn.rb
