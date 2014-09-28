@@ -25,6 +25,7 @@ RUN curl -sSL https://get.rvm.io | bash -s stable
 RUN /bin/bash -l -c "rvm requirements"
 RUN /bin/bash -l -c "rvm install 2.1.0"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+RUN /bin/bash -l -c "rvm info"
 
 # Install supervisord
 COPY ./config/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
