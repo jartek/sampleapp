@@ -4,9 +4,10 @@ FROM  ubuntu:14.04
 # Install dependencies
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install -y software-properties-common
-RUN apt-get install -y make curl gcc wget
-RUN apt-get install -y git
+RUN apt-get install -y software-properties-common build-essential
+RUN apt-get install -y wget links curl rsync bc git git-core apt-transport-https libxml2 libxml2-dev
+RUN apt-get install -y libcurl4-openssl-dev openssl gawk libreadline6-dev libyaml-dev autoconf libgdbm-dev
+RUN apt-get install -y git libncurses5-dev automake libtool bison libffi-dev
 RUN apt-get clean
 
 # Install rvm, ruby, bundler
@@ -18,7 +19,6 @@ RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 # Install Supervisord
 RUN apt-get install -y openssh-server apache2 supervisor
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/run/sshd /var/log/supervisor
-COPY ./config/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Install nginx
 RUN apt-get install -y nginx
@@ -27,9 +27,6 @@ ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
 
 # Publish port 80
 EXPOSE 80
-
-# Start supervisord when container starts
-ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 # Add rails project to project directory
 ONBUILD ADD Gemfile /home/app/Gemfile
@@ -42,4 +39,8 @@ ADD ./ /home/app
 WORKDIR /home/app
 
 ENV RAILS_ENV production
-ENV PATH /usr/local/rvm:/usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Start supervisord when container starts
+COPY ./config/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
