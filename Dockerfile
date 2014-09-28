@@ -16,12 +16,11 @@ RUN /bin/bash -l -c "rvm install 2.1.0"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 
 # Install Supervisord
-RUN apt-get update && apt-get install -y openssh-server apache2 supervisor
+RUN apt-get install -y openssh-server apache2 supervisor
 RUN mkdir -p /var/lock/apache2 /var/run/apache2 /var/run/sshd /var/log/supervisor
 COPY ./config/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Install nginx
-RUN apt-get update
 RUN apt-get install -y nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD ./config/docker/nginx.conf /etc/nginx/sites-enabled/default
